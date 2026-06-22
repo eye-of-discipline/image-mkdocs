@@ -1,0 +1,15 @@
+.git
+.gitignore
+.github
+__pycache__
+*.pyc
+*.pyo
+*.egg-info
+.pytest_cache
+.coverage
+node_modules
+.env
+.env.local
+site/
+*.md
+!README.md

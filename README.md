@@ -126,12 +126,18 @@ mike set-default 1.0
 
 ## CI/CD Pipeline
 
-The included GitHub Actions workflow (`docker-build.yml`) automatically:
+The repository uses two GitHub Actions workflows:
 
-- Builds the Docker image on push to main
-- Publishes to GitHub Container Registry
-- Tags with branch, version, and latest
-- Caches layers for faster builds
+- `release.yml` runs on push to `main` and uses the image from the repository variable
+  `IMAGE_SEMANTIC_RELEASE` to create the next semantic-release version tag.
+- `docker-build.yml` runs on version tags matching `v*`, builds the Docker image,
+  publishes it to GitHub Container Registry, and applies semver plus `latest` tags.
+
+Required repository settings:
+
+- variable `IMAGE_SEMANTIC_RELEASE` with the full semantic-release image reference,
+  for example `ghcr.io/eye-of-discipline/image-semantic-release:1`.
+- secret `SEMANTIC_RELEASE_TOKEN` with permission to create releases and push tags.
 
 ---
 
@@ -140,8 +146,10 @@ The included GitHub Actions workflow (`docker-build.yml`) automatically:
 ```bash
 .
 ├── Dockerfile                           # Container definition
+├── package.json                         # Minimal metadata for semantic-release defaults
 ├── .dockerignore                        # Docker build exclusions
 ├── docker-compose.yml                   # Development environment
+├── .github/workflows/release.yml        # Semantic version/tag creation
 ├── .github/workflows/docker-build.yml   # CI/CD pipeline
 ├── README.md                            # This file
 └── docs/                                # Documentation source (mount point)

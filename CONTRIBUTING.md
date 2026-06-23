@@ -76,6 +76,8 @@ In the pull request description, include:
 
 Pull requests should be small, focused, and safe to merge independently into `main`. Incomplete functionality must be kept disabled, for example behind a feature flag, so the trunk remains deployable.
 
-The image is published to GitHub Container Registry only from version tags matching `v*`. Maintainers handle version tagging and releases after a pull request is merged.
+Version tags are created automatically by semantic-release after changes are merged to `main`. The release workflow uses the repository variable `IMAGE_SEMANTIC_RELEASE` and the secret `SEMANTIC_RELEASE_TOKEN`.
+
+The image is published to GitHub Container Registry only from version tags matching `v*`.
 
 By contributing, you agree that your changes are licensed under the terms of the repository's `LICENSE` file.

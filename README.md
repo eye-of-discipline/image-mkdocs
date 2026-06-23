@@ -137,7 +137,8 @@ Required repository settings:
 
 - variable `IMAGE_SEMANTIC_RELEASE` with the full semantic-release image reference,
   for example `ghcr.io/eye-of-discipline/image-semantic-release:1`.
-- secret `SEMANTIC_RELEASE_TOKEN` with permission to create releases and push tags.
+- secret `SEMANTIC_RELEASE_TOKEN` with permission to create releases, push tags,
+  and read the semantic-release image package from GitHub Container Registry.
 
 ---
 

@@ -76,7 +76,7 @@ In the pull request description, include:
 
 Pull requests should be small, focused, and safe to merge independently into `main`. Incomplete functionality must be kept disabled, for example behind a feature flag, so the trunk remains deployable.
 
-Version tags are created automatically by semantic-release after changes are merged to `main`. The release workflow uses the repository variable `IMAGE_SEMANTIC_RELEASE` and the secret `SEMANTIC_RELEASE_TOKEN`.
+Version tags are created automatically by semantic-release after changes are merged to `main`. The release workflow uses the repository variable `IMAGE_SEMANTIC_RELEASE` and the secret `SEMANTIC_RELEASE_TOKEN`. The token must be allowed to create releases, push tags, and read the semantic-release image package from GitHub Container Registry.
 
 The image is published to GitHub Container Registry only from version tags matching `v*`.
 

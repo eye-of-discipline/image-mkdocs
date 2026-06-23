@@ -1,12 +1,6 @@
 # Contributing
 
-Thank you for contributing to the MkDocs Docker image.
-
-## Before You Start
-
-- Open an issue before making a large or breaking change.
-- Keep each pull request focused on one problem.
-- Do not include credentials, tokens, generated documentation, or local environment files.
+Thank you for contributing to the mkdocs Docker image.
 
 ## Local Development
 
@@ -15,69 +9,42 @@ Requirements:
 - Git
 - Docker with BuildKit support
 
-Clone the repository and create a branch:
-
-```bash
-git clone git@github.com:eye-of-discipline/image-mkdocs.git
-cd image-mkdocs
-git switch -c type/short-description
-```
-
-This project follows trunk-based development. The `main` branch is the trunk and must remain releasable. Create short-lived branches from the latest `main`, keep changes small, and merge them through pull requests as soon as they pass review and validation. Avoid long-lived feature, release, or integration branches.
-
-Use a descriptive branch prefix such as `fix/`, `feat/`, or `docs/`. Before opening or updating a pull request, synchronize your branch with the latest `main` and resolve any conflicts.
+Create a short-lived branch from `main`. Keep the branch focused and merge it
+through a pull request after validation.
 
 ## Making Changes
 
-Python dependencies are pinned in the `Dockerfile` to keep image builds reproducible. When adding or updating a dependency:
-
-1. Confirm that the package and exact version exist on PyPI.
-2. Check compatibility with the Python version used by the base image.
-3. Update the included extensions list in `README.md` when applicable.
-4. Build and validate the complete image locally.
+Node.js and npm package versions are pinned in the `Dockerfile`. When updating
+them, verify the package's Node.js engine requirements and update the package
+list in `README.md`.
 
 ## Validation
 
-Build the image:
-
 ```bash
 docker build --progress=plain -t image-mkdocs:test .
+docker run --rm image-mkdocs:test --version
+docker run --rm --entrypoint sh image-mkdocs:test -c \
+  'node --version && npm --version && git --version'
 ```
 
-Check dependency consistency and MkDocs startup:
+For configuration changes, mount a representative Git repository and run a
+dry release:
 
 ```bash
-docker run --rm image-mkdocs:test sh -c \
-  'pip check && mkdocs --version'
+docker run --rm -v "$(pwd):/workspace" image-mkdocs:test \
+  --dry-run --no-ci
 ```
 
-If your change affects a plugin, also build a representative MkDocs project with that plugin enabled.
+## Commits and Pull Requests
 
-## Commits
+Commit messages must follow the
+[Conventional Commits](https://www.conventionalcommits.org/) specification.
+Pull requests must describe the change, compatibility or image-size impact,
+and validation commands that were run.
 
-All commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
+Merges to `main` run mkdocs and create a version tag from Conventional
+Commits. The tag starts a separate workflow that publishes the corresponding
+image to GitHub Container Registry. Do not create release tags manually.
 
-```text
-fix: correct changelog plugin version
-feat: add a MkDocs extension
-docs: clarify container usage
-```
-
-Use the format `<type>[optional scope]: <description>`. Common types are `feat`, `fix`, `docs`, `chore`, `refactor`, and `ci`. Add `!` or a `BREAKING CHANGE:` footer for breaking changes.
-
-## Pull Requests
-
-In the pull request description, include:
-
-- what changed and why,
-- any compatibility or image-size impact,
-- the validation commands you ran,
-- a related issue, if one exists.
-
-Pull requests should be small, focused, and safe to merge independently into `main`. Incomplete functionality must be kept disabled, for example behind a feature flag, so the trunk remains deployable.
-
-Version tags are created automatically by semantic-release after changes are merged to `main`. The release workflow uses the repository variable `IMAGE_SEMANTIC_RELEASE` and the secret `SEMANTIC_RELEASE_TOKEN`. The token must be allowed to create releases, push tags, and read the semantic-release image package from GitHub Container Registry.
-
-The image is published to GitHub Container Registry only from version tags matching `v*`.
-
-By contributing, you agree that your changes are licensed under the terms of the repository's `LICENSE` file.
+By contributing, you agree that your changes are licensed under the terms of
+the repository's `LICENSE` file.

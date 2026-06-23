@@ -14,6 +14,7 @@ RUN pip install --no-cache-dir \
     mkdocs==1.6.0 \
     mkdocs-material==9.5.28 \
     mkdocs-material-extensions==1.3.1 \
+    mkdocs-static-i18n[material]==1.3.1 \
     mkdocs-same-dir==0.1.2 \
     mike==2.0.0 \
     pymdown-extensions==10.7 \

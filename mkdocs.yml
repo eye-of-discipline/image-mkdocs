@@ -1,8 +1,0 @@
-site_name: image-mkdocs
-site_description: Hello world site built with the image-mkdocs container.
-
-theme:
-  name: material
-
-nav:
-  - Home: index.md
